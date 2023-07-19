@@ -3,8 +3,12 @@ import 'commands/device_info.dart';
 import 'commands/disconnect.dart';
 import 'commands/failure.dart';
 import 'commands/get_action_list.dart';
+import 'commands/get_broadcaster_state.dart';
 import 'commands/get_current_broadcast.dart';
 import 'commands/get_device_info.dart';
+import 'commands/get_streaming_duration.dart';
+import 'commands/get_supported_broadcast_type_list.dart';
+import 'commands/ping.dart';
 import 'commands/success.dart';
 
 export 'commands/connect.dart';
@@ -12,8 +16,12 @@ export 'commands/device_info.dart';
 export 'commands/disconnect.dart';
 export 'commands/failure.dart';
 export 'commands/get_action_list.dart';
+export 'commands/get_broadcaster_state.dart';
 export 'commands/get_current_broadcast.dart';
 export 'commands/get_device_info.dart';
+export 'commands/get_streaming_duration.dart';
+export 'commands/get_supported_broadcast_type_list.dart';
+export 'commands/ping.dart';
 export 'commands/success.dart';
 
 class Command {
@@ -44,9 +52,16 @@ class Command {
     DisconnectCommand.COMMAND_TYPE: DisconnectCommand.fromJson,
     FailureCommand.COMMAND_TYPE: FailureCommand.fromJson,
     GetActionListCommand.COMMAND_TYPE: GetActionListCommand.fromJson,
+    GetBroadcasterStateCommand.COMMAND_TYPE:
+        GetBroadcasterStateCommand.fromJson,
     GetCurrentBroadcastCommand.COMMAND_TYPE:
         GetCurrentBroadcastCommand.fromJson,
     GetDeviceInfoCommand.COMMAND_TYPE: GetDeviceInfoCommand.fromJson,
+    GetStreamingDurationCommand.COMMAND_TYPE:
+        GetStreamingDurationCommand.fromJson,
+    GetSupportedBroadcastTypeListCommand.COMMAND_TYPE:
+        GetSupportedBroadcastTypeListCommand.fromJson,
+    PingCommand.COMMAND_TYPE: PingCommand.fromJson,
     SuccessCommand.COMMAND_TYPE: SuccessCommand.fromJson
   };
 }
