@@ -5,7 +5,7 @@ This documentation outlines the communication protocol between a mobile device (
 PRISM Live Studio generates a QR code that contains the connection info in plain-text JSON. One must scan the QR code to get the connection port, as the port is randomly selected every time PRISM is launched.
 
 The QR code uses the following JSON schema:
-```json
+```
 {
     "endInfos": [
         {
@@ -44,7 +44,7 @@ Example:
 
 ## Command
 The command to execute on the remote device is included in the message and uses the following JSON schema:
-```json
+```
 {
     "commandType": str
     "command": {
@@ -59,6 +59,20 @@ This section outlines the command types and fields that can be sent between the 
 
 **C** means the message is sent from the client, **S** means the message is sent from the server.<br>
 `?` means the field is nullable, `??` means the field might not be included in the JSON payload.
+
+**Commands:**
+* [`connect`](#connect-c)
+* [`deviceInfo`](#deviceinfo-cs)
+* [`disconnect`](#deviceinfo-c)
+* [`getActionList`](#getactionlist-c)
+* [`getBroadcasterState`](#getbroadcasterstate-c)
+* [`getDeviceInfo`](#getdeviceinfo-cs)
+* [`getStreamingDuration`](#getstreamingduration-c)
+* [`getSupportedBroadcastTypeList`](#getsupportedbroadcasttypelist-c)
+* [`ping`](#ping-c)
+* [`success<T>`](#successt-cs)
+
+---
 
 ### `connect` (C)
 Initializes a connection from the client to the server.
@@ -78,6 +92,8 @@ Reply:
 * `failure` if connection failed (i.e. device is already connected)
   * Server will close the connection
 
+---
+
 ### `deviceInfo` (C/S)
 Command to reply to a `getDeviceInfo` command from the client or server.
 | Name        | Type  | Description                                                                                                                                                                                                               |
@@ -89,12 +105,16 @@ Command to reply to a `getDeviceInfo` command from the client or server.
 
 Reply: *None*
 
+---
+
 ### `disconnect` (C)
 Disconnects the client from the server. Client will stay connected to the TCP socket. 
 
 *No fields*
 
 Reply: `success`
+
+---
 
 ### `failure` (C/S)
 The sender's command failed.
@@ -105,6 +125,8 @@ The sender's command failed.
 | `message` | `str` | Description of the error                                        |
 
 Reply: *none*
+
+---
 
 ### `getActionList` (C)
 Gets the list of possible actions from the server.
@@ -132,6 +154,8 @@ Gets the list of possible actions from the server.
 
 Reply: `success<Action[]>`
 
+---
+
 ### `getBroadcasterState` (C)
 Gets the ready state of the specified broadcast type.
 | Name            | Type  | Description                                                        |
@@ -140,6 +164,8 @@ Gets the ready state of the specified broadcast type.
 
 Reply: `success<str>`
 
+---
+
 ### `getDeviceInfo` (C/S)
 Requests the device info of the client or server. Gets sent by the server to the client every few seconds.
 
@@ -147,11 +173,17 @@ Requests the device info of the client or server. Gets sent by the server to the
 
 Reply: `deviceInfo`
 
+---
+
 ### `getStreamingDuration` (C)
 Gets the active recording/streaming time of the specified broadcast type.
 | Name            | Type  | Description                                                        |
 |-----------------|-------|--------------------------------------------------------------------|
 | `broadcastType` | `str` | The type of broadcast (i.e. `rehearsal`, `live`, `recording`, etc) |
+
+Reply: `success<int>`
+
+---
 
 ### `getSupportedBroadcastTypeList` (C)
 Gets the list of supported broadcast types from the server (i.e. `broadcast`, `recording`, etc).
@@ -160,6 +192,8 @@ Gets the list of supported broadcast types from the server (i.e. `broadcast`, `r
 
 Reply: `success<str[]>`
 
+---
+
 ### `ping` (C)
 Pings the server.
 (dev note: the app sends this request every few seconds, even though it fails...?)
@@ -167,6 +201,8 @@ Pings the server.
 *No fields*
 
 Reply: `failure` 
+
+---
 
 ### `success`\<T> (C/S)
 The sender's command was successful.
