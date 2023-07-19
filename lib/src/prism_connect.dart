@@ -34,6 +34,10 @@ class PrismConnect {
             .join();
   }
 
+  void sendMessage(Message message) {
+    _socket.add(message.toBytes());
+  }
+
   Future<Message> call(String type,
       {Map<String, dynamic> data = const {}}) async {
     // Send message
@@ -43,36 +47,16 @@ class PrismConnect {
     sendMessage(message);
 
     // Receive response
-    Message response = await receiveMessage(id);
+    Message response = await messageStream
+        .firstWhere((message) => message.requestId == id)
+        .timeout(Duration(seconds: 15));
     return response;
-  }
-
-  void sendMessage(Message message) {
-    _socket.add(message.toBytes());
   }
 
   Future<T> sendCommand<T extends Command>(Command command,
       [bool waitForMessage = true]) async {
     Message message = await call(command.commandType, data: command.command);
     return message.command as T;
-  }
-
-  Future<Message> receiveMessage([int? requestId]) {
-    if (requestId != null) {
-      return messageStream
-          .firstWhere((message) => message.requestId == requestId);
-    } else {
-      return messageStream.first;
-    }
-  }
-
-  Future<Message> receiveMessageType<T extends Command>() {
-    return messageStream.firstWhere((message) => message.command is T);
-  }
-
-  Future<T> receiveCommandType<T extends Command>() async {
-    return (await messageStream.firstWhere((message) => message.command is T))
-        .command as T;
   }
 
   void reply(Message message, Command command) async {
