@@ -66,8 +66,6 @@ class PrismConnect {
 
   void _listener(Uint8List data) {
     Message message = Message.fromBytes(data);
-    print(message);
-    print(message.requestId);
     _messageStreamController.add(message);
   }
 
