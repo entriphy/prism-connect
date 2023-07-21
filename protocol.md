@@ -141,7 +141,7 @@ Gets the list of possible actions from the server.
 #### `Action`
 | Name           | Type      | Description                                                 |
 |----------------|-----------|-------------------------------------------------------------|
-| `behaviour`    | `str`     | The behaviour of the action (i.e. `turnOnOff`, `send`, etc) |
+| `behavior`    | `str`      | The behavior of the action (i.e. `turnOnOff`, `send`, etc)  |
 | `id`           | `str`     | The ID of the source                                        |
 | `source`       | `Source?` | The source that this action applies to                      |
 | `thumbnailId`  | ?         |                                                             |
