@@ -64,13 +64,18 @@ This section outlines the command types and fields that can be sent between the 
 * [`connect`](#connect-c)
 * [`deviceInfo`](#deviceinfo-cs)
 * [`disconnect`](#deviceinfo-c)
+* [`failure`](#failure-cs)
 * [`getActionList`](#getactionlist-c)
 * [`getBroadcasterState`](#getbroadcasterstate-c)
+* [`getCurrentBroadcast`](#getcurrentbroadcast-c)
 * [`getDeviceInfo`](#getdeviceinfo-cs)
 * [`getStreamingDuration`](#getstreamingduration-c)
 * [`getSupportedBroadcastTypeList`](#getsupportedbroadcasttypelist-c)
 * [`ping`](#ping-c)
+* [`sendAction`](#sendaction-c)
+* [`subscribeSourceUpdated`](#subscribesourceupdated-c)
 * [`success<T>`](#successt-cs)
+* [`unsubscribeSourceUpdated`](#unsubscribesourceupdated-c)
 
 ---
 
@@ -166,6 +171,30 @@ Reply: `success<str>`
 
 ---
 
+### `getCurrentBroadcast` (C)
+Gets the current status of the specified broadcast type. Broadcast type must be live.
+| Name            | Type  | Description                                                        |
+|-----------------|-------|--------------------------------------------------------------------|
+| `broadcastType` | `str` | The type of broadcast (i.e. `rehearsal`, `live`, `recording`, etc) |
+
+#### `Broadcast`
+| Name          | Type                | Description                                                                    |
+|---------------|---------------------|--------------------------------------------------------------------------------|
+| `id`          | `str`               | Broadcast ID (i.e. `broadcast-recording`)                                      |
+| `startedDate` | `str`               | ISO 8601 string (with timezone and milliseconds) of when the broadcast started |
+| `targets`     | `BroadcastTarget[]` | List of targets that the broadcast is broadcasting to                          |
+| `type`        | `str`               | Broadcast type                                                                 |
+
+#### `BroadcastTarget`
+| Name       | Type  | Description                                      |
+|------------|-------|--------------------------------------------------|
+| `endURL`   | `str` | The URL that this target is broadcasting to      |
+| `platform` | `str` | The platform that this target is broadcasting to |
+
+Reply: `success<Broadcast>`/`failure`
+
+---
+
 ### `getDeviceInfo` (C/S)
 Requests the device info of the client or server. Gets sent by the server to the client every few seconds.
 
@@ -204,10 +233,40 @@ Reply: `failure`
 
 ---
 
-### `success`\<T> (C/S)
+### `sendAction` (C)
+Sends an action to the server to execute.
+| Name       | Type  | Description                                     |
+|------------|-------|-------------------------------------------------|
+| `actionId` | `str` | The action ID (from `getActionList`) to execute |
+
+Reply: `success<Source>`/`failure`
+
+---
+
+### `subscribeSourceUpdated` (C)
+Subscribes to sources to receive updates from.
+| Name        | Type    | Description                                                                                                                          |
+|-------------|---------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `sourceIds` | `str[]` | List of source IDs (from `getActionList`) to subscribe to for updates (note: even though they're JSON, these are passed as strings!) |
+
+Reply: `success`/`failure`
+
+---
+
+### `success<T>` (C/S)
 The sender's command was successful.
 | Name     | Type  | Description                        |
 |----------|-------|------------------------------------|
 | `result` | `T??` | The result of the sender's command |
 
 Reply: *none*
+
+---
+
+### `unsubscribeSourceUpdated` (C)
+Unsubscribes from sources that were previously subscribed with `subscribeSourceUpdated`.
+| Name        | Type    | Description                                                                                                                          |
+|-------------|---------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `sourceIds` | `str[]` | List of source IDs (from `getActionList`) to unsubscribe from (note: even though they're JSON, these are passed as strings!) |
+
+Reply: `success`/`failure`
