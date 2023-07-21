@@ -9,7 +9,10 @@ import 'commands/get_device_info.dart';
 import 'commands/get_streaming_duration.dart';
 import 'commands/get_supported_broadcast_type_list.dart';
 import 'commands/ping.dart';
+import 'commands/send_action.dart';
+import 'commands/subscribe_source_updated.dart';
 import 'commands/success.dart';
+import 'commands/unsubscribe_source_updated.dart';
 
 export 'commands/connect.dart';
 export 'commands/device_info.dart';
@@ -22,7 +25,16 @@ export 'commands/get_device_info.dart';
 export 'commands/get_streaming_duration.dart';
 export 'commands/get_supported_broadcast_type_list.dart';
 export 'commands/ping.dart';
+export 'commands/send_action.dart';
+export 'commands/subscribe_source_updated.dart';
 export 'commands/success.dart';
+export 'commands/unsubscribe_source_updated.dart';
+
+export 'commands/classes/action.dart';
+export 'commands/classes/broadcast_target.dart';
+export 'commands/classes/broadcast.dart';
+export 'commands/classes/session.dart';
+export 'commands/classes/source.dart';
 
 class Command {
   late Map<String, dynamic> _rawData;
@@ -32,7 +44,7 @@ class Command {
   Map<String, dynamic> get command => _rawData["command"];
   void set command(Map<String, dynamic> d) => _rawData["command"] = d;
 
-  Map<String, dynamic> toJson() => _rawData;
+  Map<String, dynamic> get json => _rawData;
 
   Command.fromJson(this._rawData);
   Command(String commandType, [Map<String, dynamic>? command]) {
@@ -62,6 +74,11 @@ class Command {
     GetSupportedBroadcastTypeListCommand.COMMAND_TYPE:
         GetSupportedBroadcastTypeListCommand.fromJson,
     PingCommand.COMMAND_TYPE: PingCommand.fromJson,
+    SendActionCommand.COMMAND_TYPE: SendActionCommand.fromJson,
+    SubscribeSourceUpdatedCommand.COMMAND_TYPE:
+        SubscribeSourceUpdatedCommand.fromJson,
+    UnsubscribeSourceUpdatedCommand.COMMAND_TYPE:
+        UnsubscribeSourceUpdatedCommand.fromJson,
     SuccessCommand.COMMAND_TYPE: SuccessCommand.fromJson
   };
 }

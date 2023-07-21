@@ -1,6 +1,6 @@
 import '../command.dart';
 
-class SuccessCommand<T extends dynamic> extends Command {
+class SuccessCommand<T> extends Command {
   static const String COMMAND_TYPE = "success";
 
   T? get result => command["result"];

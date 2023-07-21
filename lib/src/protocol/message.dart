@@ -29,7 +29,7 @@ class Message {
   }
 
   Uint8List toBytes() {
-    String str = jsonEncode(this.command.toJson());
+    String str = jsonEncode(this.command.json);
     Uint8List reqBytes = utf8.encode(str) as Uint8List;
     int len = reqBytes.lengthInBytes + 0x14;
 
