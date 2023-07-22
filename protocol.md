@@ -61,6 +61,7 @@ This section outlines the command types and fields that can be sent between the 
 `?` means the field is nullable, `??` means the field might not be included in the JSON payload.
 
 **Commands:**
+* [`changedBroadcasterState`](#changedbroadcasterstate-s)
 * [`connect`](#connect-c)
 * [`deviceInfo`](#deviceinfo-cs)
 * [`disconnect`](#deviceinfo-c)
@@ -76,6 +77,18 @@ This section outlines the command types and fields that can be sent between the 
 * [`subscribeSourceUpdated`](#subscribesourceupdated-c)
 * [`success<T>`](#successt-cs)
 * [`unsubscribeSourceUpdated`](#unsubscribesourceupdated-c)
+* [`updatedSource`](#updatedsource-s)
+
+---
+
+### `changedBroadcasterState` (S)
+Broadcast changed state (i.e. started recording/streaming).
+| Name               | Type  | Description                            |
+|--------------------|-------|----------------------------------------|
+| `broadcastType`    | `str` | The type of broadcast that was updated |
+| `broadcasterState` | `str` | The new state of the broadcast         |
+
+Reply: *None*
 
 ---
 
@@ -270,3 +283,11 @@ Unsubscribes from sources that were previously subscribed with `subscribeSourceU
 | `sourceIds` | `str[]` | List of source IDs (from `getActionList`) to unsubscribe from (note: even though they're JSON, these are passed as strings!) |
 
 Reply: `success`/`failure`
+
+### `updatedSource` (S)
+A source was updated (i.e. audio muted).
+| Name     | Type     | Description                 |
+|----------|----------|-----------------------------|
+| `source` | `Source` | The source that was updated |
+
+Reply: *None*

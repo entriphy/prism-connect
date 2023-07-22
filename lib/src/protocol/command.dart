@@ -1,3 +1,4 @@
+import 'commands/changed_broadcaster_state.dart';
 import 'commands/connect.dart';
 import 'commands/device_info.dart';
 import 'commands/disconnect.dart';
@@ -13,7 +14,9 @@ import 'commands/send_action.dart';
 import 'commands/subscribe_source_updated.dart';
 import 'commands/success.dart';
 import 'commands/unsubscribe_source_updated.dart';
+import 'commands/updated_source.dart';
 
+export 'commands/changed_broadcaster_state.dart';
 export 'commands/connect.dart';
 export 'commands/device_info.dart';
 export 'commands/disconnect.dart';
@@ -29,6 +32,7 @@ export 'commands/send_action.dart';
 export 'commands/subscribe_source_updated.dart';
 export 'commands/success.dart';
 export 'commands/unsubscribe_source_updated.dart';
+export 'commands/updated_source.dart';
 
 export 'commands/classes/action.dart';
 export 'commands/classes/broadcast_target.dart';
@@ -55,10 +59,12 @@ class Command {
   }
 
   @override
-  String toString() => _rawData.toString();
+  String toString() => "${commandType}(${command.isNotEmpty ? command : ''})";
 
   static const Map<String, Command Function(Map<String, dynamic> data)>
       commandMap = {
+    ChangedBroadcasterStateCommand.COMMAND_TYPE:
+        ChangedBroadcasterStateCommand.fromJson,
     ConnectCommand.COMMAND_TYPE: ConnectCommand.fromJson,
     DeviceInfoCommand.COMMAND_TYPE: DeviceInfoCommand.fromJson,
     DisconnectCommand.COMMAND_TYPE: DisconnectCommand.fromJson,
@@ -77,8 +83,9 @@ class Command {
     SendActionCommand.COMMAND_TYPE: SendActionCommand.fromJson,
     SubscribeSourceUpdatedCommand.COMMAND_TYPE:
         SubscribeSourceUpdatedCommand.fromJson,
+    SuccessCommand.COMMAND_TYPE: SuccessCommand.fromJson,
     UnsubscribeSourceUpdatedCommand.COMMAND_TYPE:
         UnsubscribeSourceUpdatedCommand.fromJson,
-    SuccessCommand.COMMAND_TYPE: SuccessCommand.fromJson
+    UpdatedSourceCommand.COMMAND_TYPE: UpdatedSourceCommand.fromJson,
   };
 }
