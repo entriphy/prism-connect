@@ -19,7 +19,7 @@ class PrismConnect {
   late String _deviceId; // Randomized device ID
 
   // Public fields
-  Stream<Message> get messageStream => _messageStreamController.stream;
+  Stream<Message> get stream => _messageStreamController.stream;
   bool get isClosed => _isClosed;
   String get deviceId => _deviceId;
 
@@ -47,7 +47,7 @@ class PrismConnect {
     sendMessage(message);
 
     // Receive response
-    Message response = await messageStream
+    Message response = await stream
         .firstWhere((message) => message.requestId == id)
         .timeout(Duration(seconds: 15));
     return response;

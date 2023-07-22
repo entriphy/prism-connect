@@ -58,7 +58,7 @@ void main() async {
 
   // Listen and print incoming commands
   print("Listening for commands... (press Ctrl + C to exit)");
-  prism.messageStream.listen((message) async {
+  prism.stream.listen((message) async {
     print("> ${message.command}");
 
     // Send deviceInfo when getDeviceInfo is received
